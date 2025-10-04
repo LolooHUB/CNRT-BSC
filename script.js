@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, addDoc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Configuración Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAX_Pqitbh5rq2tc2H5RAh1Winpej_BEGk",
   authDomain: "cnrt-39579.firebaseapp.com",
@@ -12,11 +11,17 @@ const firebaseConfig = {
   measurementId: "G-XZCB1NYV8C"
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ===== Registro CNRT =====
+const toast = document.getElementById("toast");
+function showToast(msg){
+  toast.innerText = msg;
+  toast.style.opacity = "1";
+  setTimeout(()=>{ toast.style.opacity = "0"; },2500);
+}
+
+// Registro CNRT
 document.getElementById("formVehiculo").addEventListener("submit", async e=>{
   e.preventDefault();
   const patente = document.getElementById("patente").value.trim().toUpperCase();
@@ -26,18 +31,16 @@ document.getElementById("formVehiculo").addEventListener("submit", async e=>{
   const detalles = document.getElementById("detalles").value;
   const descripcion = document.getElementById("descripcion").value;
 
-  if(!patente){ alert("⚠️ La patente es obligatoria."); return; }
+  if(!patente){ showToast("⚠️ La patente es obligatoria."); return; }
 
   try{
-    await setDoc(doc(db,"vehiculos",patente),{
-      patente, empresa, modelo, anio, detalles, descripcion, registrado: new Date().toISOString()
-    });
-    alert("✅ Vehículo registrado correctamente");
+    await setDoc(doc(db,"vehiculos",patente),{ patente, empresa, modelo, anio, detalles, descripcion, registrado: new Date().toISOString() });
+    showToast("✅ Vehículo registrado correctamente");
     e.target.reset();
-  }catch(err){ console.error(err); alert("❌ Error al registrar vehículo"); }
+  }catch(err){ console.error(err); showToast("❌ Error al registrar vehículo"); }
 });
 
-// ===== Registro VTV =====
+// Registro VTV
 document.getElementById("formVtv").addEventListener("submit", async e=>{
   e.preventDefault();
   const patente = document.getElementById("vtvPatente").value.trim().toUpperCase();
@@ -46,18 +49,21 @@ document.getElementById("formVtv").addEventListener("submit", async e=>{
   const fechaVencimiento = document.getElementById("vtvFecha").value;
   const observaciones = document.getElementById("vtvObs").value;
 
-  if(!patente){ alert("⚠️ La patente es obligatoria."); return; }
+  if(!patente){ showToast("⚠️ La patente es obligatoria."); return; }
+
+  // Mostrar próxima VTV
+  const fecha = new Date(fechaVencimiento);
+  fecha.setFullYear(fecha.getFullYear()+1);
+  document.getElementById("proxVTV").innerText = fecha.toISOString().split('T')[0];
 
   try{
-    await addDoc(collection(db,"vtv"),{
-      patente, empresa, anio, fechaVencimiento, observaciones, registrada: new Date().toISOString()
-    });
-    alert("✅ VTV registrada correctamente");
+    await addDoc(collection(db,"vtv"),{ patente, empresa, anio, fechaVencimiento, observaciones, registrada: new Date().toISOString() });
+    showToast("✅ VTV registrada correctamente");
     e.target.reset();
-  }catch(err){ console.error(err); alert("❌ Error al registrar VTV"); }
+  }catch(err){ console.error(err); showToast("❌ Error al registrar VTV"); }
 });
 
-// ===== Buscar vehículo =====
+// Buscar vehículo
 document.getElementById("formBuscar").addEventListener("submit", async e=>{
   e.preventDefault();
   const patente = document.getElementById("buscarPatente").value.trim().toUpperCase();

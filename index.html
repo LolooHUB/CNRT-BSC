@@ -1,48 +1,60 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CNRT - Comisión Nacional de Regulación del Transporte</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Firebase -->
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-</head>
 <body>
-  <div class="glow"></div>
-  <div class="container">
-    <!-- Logo -->
-    <div class="logo-box">
-      <img src="logo.png" alt="Logo CNRT">
-    </div>
-
+  <header>
+    <img src="logo.png" alt="CNRT Logo">
     <h1>Comisión Nacional de Regulación del Transporte</h1>
-    <h3>Sistema de Registro de Vehículos y VTV</h3>
+  </header>
 
-    <!-- Registro -->
-    <div class="card">
-      <h2>Registrar</h2>
-      <select id="tipo">
-        <option value="vehiculos">Vehículo</option>
-        <option value="vtvs">VTV</option>
-      </select>
-      <input type="text" id="patente" placeholder="Patente">
-      <input type="text" id="empresa" placeholder="Empresa">
-      <input type="number" id="anio" placeholder="Año de fabricación">
-      <textarea id="descripcion" placeholder="Detalles / Descripción"></textarea>
-      <button onclick="registrar()">Registrar</button>
-    </div>
+  <main>
+    <section class="card">
+      <h2>Registrar Vehículo</h2>
+      <form id="formVehiculo">
+        <label>Patente</label>
+        <input id="patente" required>
+        <label>Empresa</label>
+        <input id="empresa" required>
+        <label>Año de Fabricación</label>
+        <input id="anio" type="number" required>
+        <label>Detalles</label>
+        <textarea id="detalles"></textarea>
+        <label>Descripción</label>
+        <textarea id="descripcion"></textarea>
+        <button type="submit">Registrar</button>
+      </form>
+    </section>
 
-    <!-- Búsqueda -->
-    <div class="card">
+    <section class="card">
+      <h2>Registrar VTV</h2>
+      <form id="formVtv">
+        <label>Patente</label>
+        <input id="vtvPatente" required>
+        <label>Empresa</label>
+        <input id="vtvEmpresa" required>
+        <label>Año de Fabricación</label>
+        <input id="vtvAnio" type="number" required>
+        <label>Fecha Vencimiento</label>
+        <input id="vtvFecha" type="date" required>
+        <label>Observaciones</label>
+        <textarea id="vtvObs"></textarea>
+        <button type="submit">Registrar</button>
+      </form>
+    </section>
+
+    <section class="card">
       <h2>Buscar Vehículo</h2>
-      <input type="text" id="busqueda" placeholder="Patente...">
-      <button onclick="buscar()">Buscar</button>
+      <form id="formBuscar">
+        <label>Patente</label>
+        <input id="buscarPatente" required>
+        <button type="submit">Buscar</button>
+      </form>
       <div id="resultados"></div>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <script type="module" src="script.js"></script>
+  <footer>
+    © 2025 Comisión Nacional de Regulación del Transporte · Ministerio de Transporte de la Nación
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="script.js"></script>
 </body>
-</html>

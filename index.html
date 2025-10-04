@@ -12,11 +12,11 @@
 
 <!-- Fondo de burbujas -->
 <div class="bubbles">
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
+  <div class="bubble cnrt"></div>
+  <div class="bubble cnrt"></div>
+  <div class="bubble vtv"></div>
+  <div class="bubble vtv"></div>
+  <div class="bubble cnrt"></div>
 </div>
 
 <header>
@@ -31,8 +31,8 @@
 <main>
   <!-- Página CNRT -->
   <section id="pagina-cnrt" class="pagina">
-    <div class="card animate">
-      <h2>Registrar Vehículo / CNRT</h2>
+    <div class="card animate cnrt-card">
+      <h2>Registrar Vehículo / CNRT 🚍</h2>
       <form id="formVehiculo">
         <input id="patente" placeholder="Patente" required>
         <input id="empresa" placeholder="Empresa" required>
@@ -40,12 +40,21 @@
         <input id="anio" type="number" placeholder="Año de Fabricación" required>
         <textarea id="detalles" placeholder="Detalles"></textarea>
         <textarea id="descripcion" placeholder="Descripción"></textarea>
+
+        <div class="checklist-cnrt">
+          <h4>Requisitos CNRT:</h4>
+          <label><input type="checkbox" id="cnrtVTV"> VTV vigente</label>
+          <label><input type="checkbox" id="cnrtSoporte"> Soporte personas con capacidades reducidas</label>
+          <label><input type="checkbox" id="cnrtAnio"> Fabricado después de 2016</label>
+          <label><input type="checkbox" id="cnrtSeguridad"> Bocina, Intermitentes, Luz de advertencia, Equipamiento de seguridad</label>
+        </div>
+
         <button type="submit">Registrar Vehículo</button>
       </form>
     </div>
 
-    <div class="card animate">
-      <h2>Buscar Vehículo</h2>
+    <div class="card animate cnrt-card">
+      <h2>Buscar Vehículo 🔍</h2>
       <form id="formBuscar">
         <input id="buscarPatente" placeholder="Patente" required>
         <button type="submit">Buscar</button>
@@ -56,17 +65,37 @@
 
   <!-- Página VTV -->
   <section id="pagina-vtv" class="pagina" style="display:none;">
-    <div class="card animate">
-      <h2>Registrar VTV</h2>
+    <div class="card animate vtv-card">
+      <h2>Registrar VTV 🛠️</h2>
       <form id="formVtv">
         <input id="vtvPatente" placeholder="Patente" required>
         <input id="vtvEmpresa" placeholder="Empresa" required>
+        <input id="vtvModelo" placeholder="Modelo del Bus" required>
         <input id="vtvAnio" type="number" placeholder="Año de Fabricación" required>
         <input id="vtvFecha" type="date" placeholder="Fecha VTV" required>
         <textarea id="vtvObs" placeholder="Observaciones"></textarea>
+
+        <div class="checklist-vtv">
+          <h4>Requisitos VTV:</h4>
+          <label><input type="checkbox" id="vtvAnioCheck"> Vehículo 2016 en adelante</label>
+          <label><input type="checkbox" id="vtvPapeles"> Papeles excelentes</label>
+          <label><input type="checkbox" id="vtvAA"> Tener A/A en lo posible</label>
+          <label><input type="checkbox" id="vtvVelocidad"> Limite de velocidad 80/90 según tipo</label>
+          <label><input type="checkbox" id="vtvPloteo"> Ploteo del gobierno</label>
+        </div>
+
         <p class="nextVTV">Próxima VTV: <span id="proxVTV">-</span></p>
         <button type="submit">Registrar VTV</button>
       </form>
+    </div>
+
+    <div class="card animate vtv-card">
+      <h2>Buscar historial VTV 🔍</h2>
+      <form id="formBuscarVTV">
+        <input id="buscarVtvPatente" placeholder="Patente" required>
+        <button type="submit">Buscar VTV</button>
+      </form>
+      <div id="resultadosVTV"></div>
     </div>
   </section>
 </main>
@@ -75,7 +104,7 @@
 © 2025 CNRT - Ministerio de Transporte
 </footer>
 
-<!-- Toast para mensajes -->
+<!-- Toast -->
 <div id="toast"></div>
 
 <script type="module" src="script.js"></script>

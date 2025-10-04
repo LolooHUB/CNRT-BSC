@@ -1,6 +1,7 @@
-// =======================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, addDoc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 // 🔹 Configuración Firebase
-// =======================
 const firebaseConfig = {
   apiKey: "AIzaSyAX_Pqitbh5rq2tc2H5RAh1Winpej_BEGk",
   authDomain: "cnrt-39579.firebaseapp.com",
@@ -12,92 +13,74 @@ const firebaseConfig = {
 };
 
 // Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // =======================
-// 🔹 Registrar Vehículo
+// Registrar Vehículo
 // =======================
-document.getElementById("formVehiculo").addEventListener("submit", async (e) => {
+document.getElementById("formVehiculo").addEventListener("submit", async e => {
   e.preventDefault();
-
   const patente = document.getElementById("patente").value.trim().toUpperCase();
   const empresa = document.getElementById("empresa").value.trim();
   const anio = document.getElementById("anio").value;
-  const detalles = document.getElementById("detalles").value.trim();
-  const descripcion = document.getElementById("descripcion").value.trim();
+  const detalles = document.getElementById("detalles").value;
+  const descripcion = document.getElementById("descripcion").value;
 
-  if (!patente) return alert("⚠️ La patente es obligatoria.");
+  if (!patente) { alert("⚠️ La patente es obligatoria."); return; }
 
   try {
-    await db.collection("vehiculos").doc(patente).set({
-      patente,
-      empresa,
-      anio,
-      detalles,
-      descripcion,
-      registrado: new Date().toISOString()
+    await setDoc(doc(db, "vehiculos", patente), {
+      patente, empresa, anio, detalles, descripcion, registrado: new Date().toISOString()
     });
     alert("✅ Vehículo registrado correctamente");
     e.target.reset();
   } catch (error) {
-    console.error("Error al registrar vehículo:", error);
+    console.error(error);
     alert("❌ Error al registrar vehículo");
   }
 });
 
 // =======================
-// 🔹 Registrar VTV
+// Registrar VTV
 // =======================
-document.getElementById("formVtv").addEventListener("submit", async (e) => {
+document.getElementById("formVtv").addEventListener("submit", async e => {
   e.preventDefault();
-
   const patente = document.getElementById("vtvPatente").value.trim().toUpperCase();
   const empresa = document.getElementById("vtvEmpresa").value.trim();
   const anio = document.getElementById("vtvAnio").value;
   const fechaVencimiento = document.getElementById("vtvFecha").value;
-  const observaciones = document.getElementById("vtvObs").value.trim();
+  const observaciones = document.getElementById("vtvObs").value;
 
-  if (!patente) return alert("⚠️ La patente es obligatoria.");
+  if (!patente) { alert("⚠️ La patente es obligatoria."); return; }
 
   try {
-    await db.collection("vtv").add({
-      patente,
-      empresa,
-      anio,
-      fechaVencimiento,
-      observaciones,
-      registrada: new Date().toISOString()
+    await addDoc(collection(db, "vtv"), {
+      patente, empresa, anio, fechaVencimiento, observaciones, registrada: new Date().toISOString()
     });
     alert("✅ VTV registrada correctamente");
     e.target.reset();
   } catch (error) {
-    console.error("Error al registrar VTV:", error);
+    console.error(error);
     alert("❌ Error al registrar VTV");
   }
 });
 
 // =======================
-// 🔹 Buscar Vehículo por Patente
+// Buscar Vehículo por Patente
 // =======================
-document.getElementById("formBuscar").addEventListener("submit", async (e) => {
+document.getElementById("formBuscar").addEventListener("submit", async e => {
   e.preventDefault();
-
   const patente = document.getElementById("buscarPatente").value.trim().toUpperCase();
   const resultadosDiv = document.getElementById("resultados");
   resultadosDiv.innerHTML = "🔎 Buscando...";
 
-  if (!patente) {
-    resultadosDiv.innerHTML = "⚠️ Ingresá una patente.";
-    return;
-  }
-
   try {
-    // Buscar vehículo
-    const vehiculoDoc = await db.collection("vehiculos").doc(patente).get();
+    // Vehículo
+    const vehiculoDoc = await getDoc(doc(db, "vehiculos", patente));
     let html = "";
 
-    if (vehiculoDoc.exists) {
+    if (vehiculoDoc.exists()) {
       const v = vehiculoDoc.data();
       html += `
         <div class="resultado">
@@ -112,8 +95,8 @@ document.getElementById("formBuscar").addEventListener("submit", async (e) => {
       html += `<p>❌ No se encontró el vehículo con patente <b>${patente}</b>.</p>`;
     }
 
-    // Buscar VTVs relacionadas
-    const vtvSnap = await db.collection("vtv").where("patente", "==", patente).get();
+    // VTVs relacionadas
+    const vtvSnap = await getDocs(query(collection(db, "vtv"), where("patente", "==", patente)));
     if (!vtvSnap.empty) {
       html += "<h3>📋 Historial de VTV</h3>";
       vtvSnap.forEach(doc => {
@@ -129,7 +112,7 @@ document.getElementById("formBuscar").addEventListener("submit", async (e) => {
 
     resultadosDiv.innerHTML = html;
   } catch (error) {
-    console.error("Error al buscar:", error);
+    console.error(error);
     resultadosDiv.innerHTML = "❌ Error al buscar datos.";
   }
 });

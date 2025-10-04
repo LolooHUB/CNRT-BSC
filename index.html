@@ -10,6 +10,15 @@
 </head>
 <body>
 
+<!-- Fondo de burbujas -->
+<div class="bubbles">
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+</div>
+
 <header>
   <img src="logo.png" alt="CNRT Logo" class="logo">
   <h1>Comisión Nacional de Regulación del Transporte</h1>
@@ -22,7 +31,7 @@
 <main>
   <!-- Página CNRT -->
   <section id="pagina-cnrt" class="pagina">
-    <div class="card">
+    <div class="card animate">
       <h2>Registrar Vehículo / CNRT</h2>
       <form id="formVehiculo">
         <input id="patente" placeholder="Patente" required>
@@ -35,7 +44,7 @@
       </form>
     </div>
 
-    <div class="card">
+    <div class="card animate">
       <h2>Buscar Vehículo</h2>
       <form id="formBuscar">
         <input id="buscarPatente" placeholder="Patente" required>
@@ -47,7 +56,7 @@
 
   <!-- Página VTV -->
   <section id="pagina-vtv" class="pagina" style="display:none;">
-    <div class="card">
+    <div class="card animate">
       <h2>Registrar VTV</h2>
       <form id="formVtv">
         <input id="vtvPatente" placeholder="Patente" required>
@@ -55,6 +64,7 @@
         <input id="vtvAnio" type="number" placeholder="Año de Fabricación" required>
         <input id="vtvFecha" type="date" placeholder="Fecha VTV" required>
         <textarea id="vtvObs" placeholder="Observaciones"></textarea>
+        <p class="nextVTV">Próxima VTV: <span id="proxVTV">-</span></p>
         <button type="submit">Registrar VTV</button>
       </form>
     </div>
@@ -65,11 +75,16 @@
 © 2025 CNRT - Ministerio de Transporte
 </footer>
 
+<!-- Toast para mensajes -->
+<div id="toast"></div>
+
 <script type="module" src="script.js"></script>
 <script>
   function mostrarPagina(pagina){
     document.getElementById("pagina-cnrt").style.display = (pagina === 'cnrt') ? 'flex' : 'none';
     document.getElementById("pagina-vtv").style.display = (pagina === 'vtv') ? 'flex' : 'none';
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(c => { c.classList.remove("animate"); void c.offsetWidth; c.classList.add("animate"); });
   }
 </script>
 </body>

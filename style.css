@@ -1,126 +1,129 @@
-/* Fuente y fondo institucional */
+/* Fuente y fondo moderno */
 body {
   margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: radial-gradient(circle at center, #1a3c72 0%, #0d1b2a 100%);
   color: #fff;
+  min-height: 100vh;
 }
 
-/* Header */
+/* Header con estilo limpio */
 header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 15px 30px;
-  background: #0a2342;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
   flex-wrap: wrap;
 }
 
-header .logos {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-right: 20px;
-}
-
 header .logo {
-  height: 50px;
+  height: 60px;
 }
 
 header h1 {
   font-size: 22px;
   font-weight: 600;
-  color: #fff;
+  margin-left: 15px;
   flex: 1;
 }
 
-nav button {
+header nav button {
   margin-left: 10px;
-  padding: 8px 14px;
-  background: #1e5cb3;
+  padding: 10px 18px;
   border: none;
-  border-radius: 6px;
-  color: white;
+  border-radius: 30px;
+  background: linear-gradient(90deg,#1e5cb3,#2874d9);
+  color: #fff;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
 }
 
-nav button:hover {
-  background: #2874d9;
+header nav button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 /* Contenedor principal */
 main {
   max-width: 1000px;
   margin: 40px auto;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 25px;
   padding: 0 20px;
 }
 
-/* Tarjetas */
+/* Tarjetas glass + burbuja */
 .card {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
 }
 
-.card h2, .card h3 {
-  margin-bottom: 15px;
-  color: #f1f1f1;
+.card h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
-/* Formularios */
+/* Formularios burbuja */
 input, textarea {
   width: 100%;
-  padding: 12px;
-  margin-top: 6px;
+  padding: 14px;
+  margin-top: 8px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 15px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.1);
   color: #fff;
   box-sizing: border-box;
-}
-
-textarea {
-  min-height: 70px;
-  resize: vertical;
+  transition: all 0.3s ease;
 }
 
 input:focus, textarea:focus {
   outline: 2px solid #4da6ff;
+  background: rgba(255,255,255,0.15);
 }
 
-/* Botones */
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Botones grandes y bonitos */
 button {
-  margin-top: 15px;
-  padding: 12px 20px;
-  background: #1e5cb3;
+  margin-top: 18px;
+  padding: 14px 22px;
+  border-radius: 30px;
   border: none;
-  border-radius: 8px;
-  color: white;
   font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  color: #fff;
+  background: linear-gradient(90deg,#1e5cb3,#2874d9);
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background: #2874d9;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
-/* Resultados de búsqueda */
+/* Resultados búsqueda */
 .resultado {
-  background: rgba(0,0,0,0.4);
-  padding: 12px;
-  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+  padding: 14px;
+  border-radius: 12px;
   margin-top: 12px;
 }
 
@@ -130,6 +133,8 @@ footer {
   padding: 20px;
   text-align: center;
   font-size: 13px;
-  background: #081a33;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
   color: #aaa;
 }
+

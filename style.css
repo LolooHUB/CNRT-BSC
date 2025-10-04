@@ -5,10 +5,44 @@ body {
   background: radial-gradient(circle at center, #1a3c72 0%, #0d1b2a 100%);
   color: #fff;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Header con estilo limpio */
+/* Fondo burbujas */
+.bubbles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top:0; left:0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.bubble {
+  position: absolute;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  animation: rise 20s linear infinite;
+  bottom: -100px;
+}
+
+.bubble:nth-child(1) { width: 60px; height: 60px; left: 10%; animation-duration: 18s; }
+.bubble:nth-child(2) { width: 100px; height: 100px; left: 40%; animation-duration: 25s; }
+.bubble:nth-child(3) { width: 80px; height: 80px; left: 70%; animation-duration: 20s; }
+.bubble:nth-child(4) { width: 50px; height: 50px; left: 80%; animation-duration: 22s; }
+.bubble:nth-child(5) { width: 120px; height: 120px; left: 20%; animation-duration: 28s; }
+
+@keyframes rise {
+  0% { transform: translateY(0) scale(0.5); opacity:0.3; }
+  50% { opacity:0.6; }
+  100% { transform: translateY(-120vh) scale(1); opacity:0; }
+}
+
+/* Header */
 header {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -18,16 +52,8 @@ header {
   flex-wrap: wrap;
 }
 
-header .logo {
-  height: 60px;
-}
-
-header h1 {
-  font-size: 22px;
-  font-weight: 600;
-  margin-left: 15px;
-  flex: 1;
-}
+header .logo { height: 60px; }
+header h1 { font-size: 22px; font-weight: 600; margin-left: 15px; flex: 1; }
 
 header nav button {
   margin-left: 10px;
@@ -43,40 +69,36 @@ header nav button {
 
 header nav button:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
-/* Contenedor principal */
-main {
-  max-width: 1000px;
-  margin: 40px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  padding: 0 20px;
-}
+/* Main */
+main { max-width: 1000px; margin: 40px auto; display: flex; flex-direction: column; gap: 25px; padding: 0 20px; position: relative; z-index:1; }
 
-/* Tarjetas glass + burbuja */
+/* Card estilo glass con animación */
 .card {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(15px);
   border-radius: 20px;
   padding: 30px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  opacity:0;
+  transform: translateY(50px);
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+.card.animate {
+  animation: slideUp 0.7s forwards;
 }
 
-.card h2 {
-  margin-bottom: 20px;
-  font-weight: 600;
+@keyframes slideUp {
+  0% { opacity:0; transform: translateY(50px); }
+  100% { opacity:1; transform: translateY(0); }
 }
 
-/* Formularios burbuja */
+.card h2 { margin-bottom: 20px; font-weight: 600; }
+
+/* Formularios */
 input, textarea {
   width: 100%;
   padding: 14px;
@@ -87,20 +109,18 @@ input, textarea {
   background: rgba(255,255,255,0.1);
   color: #fff;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus, textarea:focus {
   outline: 2px solid #4da6ff;
   background: rgba(255,255,255,0.15);
+  box-shadow: 0 0 12px rgba(77,166,255,0.5);
 }
 
-textarea {
-  min-height: 80px;
-  resize: vertical;
-}
+textarea { min-height: 80px; resize: vertical; }
 
-/* Botones grandes y bonitos */
+/* Botones */
 button {
   margin-top: 18px;
   padding: 14px 22px;
@@ -111,15 +131,31 @@ button {
   cursor: pointer;
   color: #fff;
   background: linear-gradient(90deg,#1e5cb3,#2874d9);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
 }
 
-/* Resultados búsqueda */
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #1e5cb3;
+  padding: 15px 20px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 600;
+  opacity:0;
+  pointer-events:none;
+  z-index: 999;
+  transition: all 0.5s ease;
+}
+
+/* Resultados */
 .resultado {
   background: rgba(0,0,0,0.3);
   padding: 14px;
@@ -137,4 +173,3 @@ footer {
   backdrop-filter: blur(10px);
   color: #aaa;
 }
-
